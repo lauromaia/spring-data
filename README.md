@@ -1,2 +1,2 @@
 # spring-data
-Projeto curso de Spring Data da Alura
+Projeto do curso de Spring Data da Alura
