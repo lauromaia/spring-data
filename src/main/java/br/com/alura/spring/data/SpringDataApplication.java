@@ -9,23 +9,28 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import br.com.alura.spring.data.service.CrudCargoService;
 import br.com.alura.spring.data.service.CrudFuncionarioService;
 import br.com.alura.spring.data.service.CrudUnidadeDeTrabalhoService;
+import br.com.alura.spring.data.service.RelatorioFuncionarioDinamicoService;
 import br.com.alura.spring.data.service.RelatoriosService;
 
 @SpringBootApplication
-public class SpringDataApplication implements CommandLineRunner{
-	
+public class SpringDataApplication implements CommandLineRunner {
+
 	private boolean system = true;
 	private final CrudCargoService cargoService;
 	private final CrudFuncionarioService funcionarioService;
 	private final CrudUnidadeDeTrabalhoService unidadeDeTrabalhoService;
 	private final RelatoriosService relatorioService;
-	public SpringDataApplication(CrudCargoService cargoService,  CrudFuncionarioService funcionarioService,
-			CrudUnidadeDeTrabalhoService unidadeDeTrabalhoService, RelatoriosService relatorioService) {
+	private final RelatorioFuncionarioDinamicoService relatorioFuncionarioDinamicoService;
+
+	public SpringDataApplication(CrudCargoService cargoService, CrudFuncionarioService funcionarioService,
+			CrudUnidadeDeTrabalhoService unidadeDeTrabalhoService, RelatoriosService relatorioService,
+			RelatorioFuncionarioDinamicoService relatorioFuncionarioDinamicoService) {
 		this.cargoService = cargoService;
 		this.funcionarioService = funcionarioService;
 		this.unidadeDeTrabalhoService = unidadeDeTrabalhoService;
 		this.relatorioService = relatorioService;
-		
+		this.relatorioFuncionarioDinamicoService = relatorioFuncionarioDinamicoService;
+
 	}
 
 	public static void main(String[] args) {
@@ -35,13 +40,14 @@ public class SpringDataApplication implements CommandLineRunner{
 	@Override
 	public void run(String... args) throws Exception {
 		Scanner scanner = new Scanner(System.in);
-		while(system) {
+		while (system) {
 			System.out.println("Qual ação você deseja executar?");
 			System.out.println("0 - Sair");
 			System.out.println("1 - Cargo");
 			System.out.println("2 - Funcionario");
 			System.out.println("3 - Unidade De Trabalho");
 			System.out.println("4 - Relatórios");
+			System.out.println("5 - Relatório Dinâmico");
 			int action = scanner.nextInt();
 			switch (action) {
 			case 1:
@@ -56,15 +62,16 @@ public class SpringDataApplication implements CommandLineRunner{
 			case 4:
 				relatorioService.inicial(scanner);
 				break;
+			case 5:
+				relatorioFuncionarioDinamicoService.inicial(scanner);
+				break;
 			default:
 				system = false;
 				break;
-			
+
+			}
+
 		}
-		
-		
-	}
-	
 
 	}
 }

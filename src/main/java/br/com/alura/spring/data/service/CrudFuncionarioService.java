@@ -17,6 +17,7 @@ import br.com.alura.spring.data.orm.Cargo;
 import br.com.alura.spring.data.orm.Funcionario;
 import br.com.alura.spring.data.orm.UnidadeDeTrabalho;
 import br.com.alura.spring.data.repository.CargoRepository;
+import br.com.alura.spring.data.repository.FuncionarioProjecao;
 import br.com.alura.spring.data.repository.FuncionarioRepository;
 import br.com.alura.spring.data.repository.UnidadeDeTrabalhoRepository;
 
@@ -155,7 +156,7 @@ public class CrudFuncionarioService {
 	private void visualizar(Scanner scanner) {
 		System.out.println("Qual página deseja visualizar?");
 		int page = scanner.nextInt();
-		Pageable pageable = PageRequest.of(page, 5, Sort.unsorted());
+		Pageable pageable = PageRequest.of(page, 5, Sort.by(Sort.Direction.ASC, "nome"));
 		
 		
 		Page<Funcionario> funcionarios = funcionarioRepository.findAll(pageable);
@@ -164,6 +165,7 @@ public class CrudFuncionarioService {
 		System.out.println("Total elemento " + funcionarios.getTotalElements());
 		funcionarios.forEach(funcionario -> System.out.println(funcionario));
 	}
+	
 	
 	private void deletar(Scanner scanner) {
 		System.out.println("Id");
