@@ -27,7 +27,7 @@ public class Funcionario {
 	private Integer id;
 	private String nome;
 	private String cpf;
-	private BigDecimal salario;
+	private Double salario;
 	private LocalDate dataContrato;
 
 	@ManyToOne
@@ -39,7 +39,8 @@ public class Funcionario {
 	@JoinTable(name = "funcionarios_unidades", joinColumns = {
 			@JoinColumn(name = "fk_funcionario") }, inverseJoinColumns = { @JoinColumn(name = "fk_unidade") })
 	private List<UnidadeDeTrabalho> unidadeDeTrabalhos;
-
+	
+	
 	public List<UnidadeDeTrabalho> getUnidadeDeTrabalhos() {
 		return unidadeDeTrabalhos;
 	}
@@ -82,11 +83,11 @@ public class Funcionario {
 		this.cpf = cpf;
 	}
 
-	public BigDecimal getSalario() {
+	public Double getSalario() {
 		return salario;
 	}
 
-	public void setSalario(BigDecimal salario) {
+	public void setSalario(Double salario) {
 		this.salario = salario;
 	}
 

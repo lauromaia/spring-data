@@ -1,6 +1,5 @@
 package br.com.alura.spring.data.service;
 
-import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -8,6 +7,10 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Scanner;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import br.com.alura.spring.data.orm.Cargo;
@@ -36,7 +39,7 @@ public class CrudFuncionarioService {
 	
 	public void inicial(Scanner scanner) {
 		while(system) {
-			System.out.println("Qual acao de cargo deseja executar");
+			System.out.println("Qual acao deseja executar");
 			System.out.println("0 - Sair");
 			System.out.println("1 - Salvar");
 			System.out.println("2 - Atualizar");
@@ -53,7 +56,7 @@ public class CrudFuncionarioService {
 				atualizar(scanner);
 				break;
 			case 3:
-				visualizar();
+				visualizar(scanner);
 				break;
 			case 4:
 				deletar(scanner);
@@ -88,7 +91,7 @@ public class CrudFuncionarioService {
         Funcionario funcionario = new Funcionario();
         funcionario.setNome(nome);
         funcionario.setCpf(cpf);
-        funcionario.setSalario(new BigDecimal(salario));
+        funcionario.setSalario(salario);
         funcionario.setDataContrato(LocalDate.parse(dataContratacao, formatter));
         Optional<Cargo> cargo = cargoRepository.findById(cargoId);
         funcionario.setCargo(cargo.get());
@@ -128,7 +131,7 @@ public class CrudFuncionarioService {
         String cpf = scanner.next();
 
         System.out.println("Digite o salario");
-        BigDecimal salario = new BigDecimal(scanner.nextDouble());
+        Double salario = scanner.nextDouble();
 
         System.out.println("Digite a data de contracao");
         String dataContratacao = scanner.next();
@@ -149,8 +152,16 @@ public class CrudFuncionarioService {
         System.out.println("Alterado");
 	}
 	
-	private void visualizar() {
-		Iterable<Funcionario> funcionarios = funcionarioRepository.findAll();
+	private void visualizar(Scanner scanner) {
+		System.out.println("Qual página deseja visualizar?");
+		int page = scanner.nextInt();
+		Pageable pageable = PageRequest.of(page, 5, Sort.unsorted());
+		
+		
+		Page<Funcionario> funcionarios = funcionarioRepository.findAll(pageable);
+		System.out.println(funcionarios);
+		System.out.println("Página atual " + funcionarios.getNumber());
+		System.out.println("Total elemento " + funcionarios.getTotalElements());
 		funcionarios.forEach(funcionario -> System.out.println(funcionario));
 	}
 	

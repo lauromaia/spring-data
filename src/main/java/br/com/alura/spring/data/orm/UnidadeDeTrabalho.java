@@ -13,27 +13,31 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "unidades_de_trabalho")
 public class UnidadeDeTrabalho {
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 	private String descricao;
 	private String endereco;
-	
+
 	@ManyToMany(mappedBy = "unidadeDeTrabalhos", fetch = FetchType.EAGER)
 	List<Funcionario> funcionarios;
-	
-	public UnidadeDeTrabalho(String descricao, String endereco) {
-		this.descricao = descricao;
-		this.endereco = endereco;
-		
+
+	public Integer getId() {
+		return id;
 	}
-	
+
+	public void setId(Integer id) {
+		this.id = id;
+	}
+
+	public void setFuncionarios(List<Funcionario> funcionarios) {
+		this.funcionarios = funcionarios;
+	}
+
 	public void adicionar(Funcionario funcionario) {
 		this.funcionarios.add(funcionario);
 	}
-	
-
 
 	public String getDescricao() {
 		return descricao;
@@ -55,6 +59,4 @@ public class UnidadeDeTrabalho {
 		return funcionarios;
 	}
 
-
-	
 }
